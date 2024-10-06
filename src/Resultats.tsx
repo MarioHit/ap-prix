@@ -1,5 +1,3 @@
-// src/Resultats.tsx
-import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 const Resultats = () => {
@@ -8,7 +6,7 @@ const Resultats = () => {
 
   return (
     <div>
-      <h2>Détails de l'Article</h2>
+      <h2>Détails de l'Article ok </h2>
       <p><strong>Nom :</strong> {nom}</p>
       <p><strong>Prix :</strong> {prix} €</p>
       <p><strong>Magasin :</strong> {magasin}</p>
