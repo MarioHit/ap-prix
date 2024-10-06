@@ -1,18 +1,27 @@
-// src/Formulaire.tsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const Formulaire = () => {
+interface Article {
+  nom: string;
+  prix: string;
+  magasin: string;
+}
+
+interface FormulaireProps {
+  onAddArticle: (article: Article) => void;
+}
+
+const Formulaire: React.FC<FormulaireProps> = ({ onAddArticle }) => {
   const [nom, setNom] = useState('');
   const [prix, setPrix] = useState('');
   const [magasin, setMagasin] = useState('');
-  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const article = { nom, prix, magasin };
-    // Naviguer vers la page des résultats avec l'état
-    navigate('/resultats', { state: article });
+    onAddArticle(article); // Appelle la fonction pour ajouter l'article
+    setNom(''); // Réinitialiser les champs
+    setPrix('');
+    setMagasin('');
   };
 
   return (

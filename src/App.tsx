@@ -1,11 +1,25 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import Formulaire from './Formulaire';
+import Resultats from './Resultats';
+import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
-import Resultats from './Resultats';
+
+// Exporter le type Article
+export interface Article {
+  nom: string;
+  prix: string;
+  magasin: string;
+}
 
 function App() {
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  const handleAddArticle = (article: Article) => {
+    setArticles((prevArticles) => [...prevArticles, article]); // Ajouter l'article à l'état
+  };
+
   return (
     <>
       <div>
@@ -21,8 +35,8 @@ function App() {
         <Link to="/">Ajouter un Article</Link> | <Link to="/resultats">Voir les Résultats</Link>
       </nav>
       <Routes>
-        <Route path="/" element={<Formulaire />} />
-        <Route path="/resultats" element={<Resultats />} />
+        <Route path="/" element={<Formulaire onAddArticle={handleAddArticle} />} />
+        <Route path="/resultats" element={<Resultats articles={articles} />} />
       </Routes>
     </>
   );
