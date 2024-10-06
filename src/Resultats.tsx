@@ -1,5 +1,5 @@
 import React from 'react';
-import { Article } from './App'; // Assurez-vous que ce chemin est correct.
+import { Article } from './types';
 
 interface ResultatsProps {
   articles: Article[];
