@@ -1,4 +1,6 @@
+// src/Formulaire.tsx
 import React, { useState } from 'react';
+import './Formulaire.css'; // Importer le CSS
 
 interface Article {
   nom: string;

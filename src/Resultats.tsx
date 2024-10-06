@@ -1,5 +1,7 @@
+// src/Resultats.tsx
 import React from 'react';
-import { Article } from './types';
+import { Article } from './types'; // Importer l'interface depuis types.ts
+import './Resultats.css'; // Importer le CSS
 
 interface ResultatsProps {
   articles: Article[];
