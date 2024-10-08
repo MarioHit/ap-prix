@@ -19,6 +19,9 @@ const Resultats: React.FC<ResultatsProps> = ({ articles }) => {
             <p><strong>Nom :</strong> {article.nom}</p>
             <p><strong>Prix :</strong> {article.prix} €</p>
             <p><strong>Magasin :</strong> {article.magasin}</p>
+            <p><strong>Quantité :</strong> {article.quantite}</p>
+            <p><strong>Prix au kg/Litre :</strong> {article.prixAuKgLitre} €</p>
+            <p><strong>Article en promo :</strong> {article.enPromo}</p>
             <hr />
           </div>
         ))
