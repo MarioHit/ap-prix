@@ -18,7 +18,12 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+
+    /*  tyes  */
+    "types": ["node"] // Ajoute les types node ici
+
   },
   "include": ["src"]
 }

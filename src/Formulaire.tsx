@@ -3,23 +3,56 @@ import React, { useState } from 'react';
 import './Formulaire.css'; // Importer le CSS
 import { Article } from './types'; // Importer l'interface
 
-interface FormulaireProps {
-  onAddArticle: (article: Article) => void;
-}
-
-const Formulaire: React.FC<FormulaireProps> = ({ onAddArticle }) => {
+const Formulaire: React.FC = () => {
   const [nom, setNom] = useState('');
   const [prix, setPrix] = useState('');
   const [magasin, setMagasin] = useState('');
   const [quantite, setQuantite] = useState('');
   const [prixAuKgLitre, setPrixAuKgLitre] = useState('');
   const [enPromo, setEnPromo] = useState('');
-  const [utilisateur, setUtilisateur] = useState(''); // Nouveau champ
+  const [utilisateur, setUtilisateur] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const article: Article = { nom, prix, magasin, quantite, prixAuKgLitre, enPromo, utilisateur };
-    onAddArticle(article); // Appelle la fonction pour ajouter l'article
+
+    // Appel à l'API pour ajouter un article
+    try {
+        const url = `${import.meta.env.VITE_API_BASE_URL}`;
+
+        console.log("url ecrire", url);
+        // const url = process.env.VITE_API_BASE_URL;
+
+      if (!url) {
+        console.error("Erreur : l'URL de l'API n'est pas définie");
+        return;
+      }
+      const params = new URLSearchParams({
+        action: 'ecrire',
+        chemin: 'v2',
+        nom: article.nom,
+        prix: article.prix,
+        magasin: article.magasin,
+        quantite: article.quantite,
+        prixAuKgLitre: article.prixAuKgLitre,
+        enPromo: article.enPromo,
+        utilisateur: article.utilisateur,
+      });
+
+      const response = await fetch(`${url}?${params.toString()}`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        const resultat = await response.text();
+        console.log(resultat);
+      } else {
+        console.error('Erreur lors de la requête API:', response.statusText);
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'ajout de l'article :", error);
+    }
+
     // Réinitialiser les champs
     setNom('');
     setPrix('');

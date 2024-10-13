@@ -2,16 +2,11 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import Formulaire from './Formulaire';
 import Resultats from './Resultats';
-import { useState } from 'react';
+// import Accueil from './Accueil'; // On va séparer Accueil dans son propre fichier
 import './App.css'; // Assure-toi d'avoir des styles pour ta page
+import Accueil from './Accueil';
 
 function App() {
-  const [articles, setArticles] = useState<{ nom: string; prix: string; magasin: string; }[]>([]);
-
-  const handleAddArticle = (article: { nom: string; prix: string; magasin: string; }) => {
-    setArticles((prevArticles) => [...prevArticles, article]); // Ajouter l'article à l'état
-  };
-
   return (
     <>
       <header>
@@ -22,22 +17,11 @@ function App() {
       </header>
       <Routes>
         <Route path="/" element={<Accueil />} />
-        <Route path="/ajouter" element={<Formulaire onAddArticle={handleAddArticle} />} />
-        <Route path="/resultats" element={<Resultats articles={articles} />} />
+        <Route path="/ajouter" element={<Formulaire />} />
+        <Route path="/resultats" element={<Resultats />} />
       </Routes>
     </>
   );
 }
-
-const Accueil = () => {
-  return (
-    <div className="accueil">
-      <h2>Bienvenue sur la Coopérative de Bons Prix !</h2>
-      <p>Partagez et découvrez les meilleurs prix pour économiser ensemble.</p>
-      <p>Rejoignez notre communauté et commencez à partager vos bonnes affaires.</p>
-      <img src="https://via.placeholder.com/400" alt="Coopérative" className="image-accueil" />
-    </div>
-  );
-};
 
 export default App;
