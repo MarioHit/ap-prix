@@ -1,21 +1,18 @@
 // src/Resultats.tsx
 import React, { useEffect, useState } from 'react';
-import { Article } from './types'; // Importer l'interface depuis types.ts
-import './Resultats.css'; // Importer le CSS
+import { Article } from './types';
 
 const Resultats: React.FC = () => {
   const [fetchedArticles, setFetchedArticles] = useState<Article[]>([]);
 
   const fetchArticles = async () => {
     try {
-        
-        const url = `${import.meta.env.VITE_API_BASE_URL}?action=lire&chemin=v2`;
-        //const url = `${process.env}?action=lire&chemin=v2`;
-        console.log("url lire", url);
-        if (!url) {
-            console.error("Erreur : l'URL de l'API n'est pas définie");
-            return;
-          }
+      const url = `${import.meta.env.VITE_API_BASE_URL}?action=lire&chemin=v2`;
+      console.log("url lire", url);
+      if (!url) {
+        console.error("Erreur : l'URL de l'API n'est pas définie");
+        return;
+      }
 
       const response = await fetch(url);
       const data = await response.json();
@@ -30,37 +27,39 @@ const Resultats: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Détails des Articles</h2>
+    <div className="container my-5">
+      <h2 className="text-center mb-4">Détails des Articles</h2>
       {fetchedArticles.length === 0 ? (
-        <p>Aucun article n'a été ajouté.</p>
+        <p className="text-center text-muted">Aucun article n'a été ajouté.</p>
       ) : (
-        <table className="resultats-table">
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Prix (€)</th>
-              <th>Magasin</th>
-              <th>Quantité</th>
-              <th>Prix au kg/Litre (€)</th>
-              <th>Article en promo</th>
-              <th>Utilisateur</th>
-            </tr>
-          </thead>
-          <tbody>
-            {fetchedArticles.map((article, index) => (
-              <tr key={index}>
-                <td>{article.nom}</td>
-                <td>{article.prix}</td>
-                <td>{article.magasin}</td>
-                <td>{article.quantite}</td>
-                <td>{article.prixAuKgLitre}</td>
-                <td>{article.enPromo}</td>
-                <td>{article.utilisateur}</td>
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered">
+            <thead className="thead-dark">
+              <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Prix (€)</th>
+                <th scope="col">Magasin</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix au kg/Litre (€)</th>
+                <th scope="col">Article en promo</th>
+                <th scope="col">Utilisateur</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {fetchedArticles.map((article, index) => (
+                <tr key={index}>
+                  <td>{article.nom}</td>
+                  <td>{article.prix}</td>
+                  <td>{article.magasin}</td>
+                  <td>{article.quantite}</td>
+                  <td>{article.prixAuKgLitre}</td>
+                  <td>{article.enPromo}</td>
+                  <td>{article.utilisateur}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
