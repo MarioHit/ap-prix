@@ -14,17 +14,32 @@ const Resultats: React.FC<ResultatsProps> = ({ articles }) => {
       {articles.length === 0 ? (
         <p>Aucun article n'a été ajouté.</p>
       ) : (
-        articles.map((article, index) => (
-          <div key={index}>
-            <p><strong>Nom :</strong> {article.nom}</p>
-            <p><strong>Prix :</strong> {article.prix} €</p>
-            <p><strong>Magasin :</strong> {article.magasin}</p>
-            <p><strong>Quantité :</strong> {article.quantite}</p>
-            <p><strong>Prix au kg/Litre :</strong> {article.prixAuKgLitre} €</p>
-            <p><strong>Article en promo :</strong> {article.enPromo}</p>
-            <hr />
-          </div>
-        ))
+        <table className="resultats-table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Prix (€)</th>
+              <th>Magasin</th>
+              <th>Quantité</th>
+              <th>Prix au kg/Litre (€)</th>
+              <th>Article en promo</th>
+              <th>Utilisateur</th> {/* Nouvelle colonne */}
+            </tr>
+          </thead>
+          <tbody>
+            {articles.map((article, index) => (
+              <tr key={index}>
+                <td>{article.nom}</td>
+                <td>{article.prix}</td>
+                <td>{article.magasin}</td>
+                <td>{article.quantite}</td>
+                <td>{article.prixAuKgLitre}</td>
+                <td>{article.enPromo}</td>
+                <td>{article.utilisateur}</td> {/* Afficher l'utilisateur */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

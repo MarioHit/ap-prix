@@ -14,10 +14,11 @@ const Formulaire: React.FC<FormulaireProps> = ({ onAddArticle }) => {
   const [quantite, setQuantite] = useState('');
   const [prixAuKgLitre, setPrixAuKgLitre] = useState('');
   const [enPromo, setEnPromo] = useState('');
+  const [utilisateur, setUtilisateur] = useState(''); // Nouveau champ
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const article: Article = { nom, prix, magasin, quantite, prixAuKgLitre, enPromo };
+    const article: Article = { nom, prix, magasin, quantite, prixAuKgLitre, enPromo, utilisateur };
     onAddArticle(article); // Appelle la fonction pour ajouter l'article
     // Réinitialiser les champs
     setNom('');
@@ -26,6 +27,7 @@ const Formulaire: React.FC<FormulaireProps> = ({ onAddArticle }) => {
     setQuantite('');
     setPrixAuKgLitre('');
     setEnPromo('');
+    setUtilisateur('');
   };
 
   return (
@@ -71,6 +73,13 @@ const Formulaire: React.FC<FormulaireProps> = ({ onAddArticle }) => {
         <option value="oui">Oui</option>
         <option value="non">Non</option>
       </select>
+      <input
+        type="text"
+        placeholder="Utilisateur"
+        value={utilisateur}
+        onChange={(e) => setUtilisateur(e.target.value)}
+        required
+      />
       <button type="submit">Ajouter l'article</button>
     </form>
   );
