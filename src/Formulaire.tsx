@@ -1,37 +1,29 @@
 // src/Formulaire.tsx
 import React, { useState } from 'react';
-import './Formulaire.css'; // Importer le CSS
-import { Article } from './types'; // Importer l'interface
+import { useNavigate } from 'react-router-dom'; // Importer useNavigate
 
 const Formulaire: React.FC = () => {
-  const [id, setId] = useState('');
-  const [nom, setNom] = useState('');
-  const [prix, setPrix] = useState('');
-  const [magasin, setMagasin] = useState('');
-  const [quantite, setQuantite] = useState('');
-  const [prixAuKgLitre, setPrixAuKgLitre] = useState('');
-  const [enPromo, setEnPromo] = useState('');
-  const [utilisateur, setUtilisateur] = useState('');
+  const [article, setArticle] = useState({
+    nom: '',
+    prix: '',
+    magasin: '',
+    quantite: '',
+    prixAuKgLitre: '',
+    enPromo: 'non',
+    utilisateur: ''
+  });
+  const navigate = useNavigate(); // Initialiser useNavigate
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setArticle((prevArticle) => ({ ...prevArticle, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const article: Article = { id, nom, prix, magasin, quantite, prixAuKgLitre, enPromo, utilisateur
-    };
-
-    // Appel à l'API pour ajouter un article
+    const url = `${import.meta.env.VITE_API_BASE_URL}?action=ecrire&chemin=v2`;
     try {
-        const url = `${import.meta.env.VITE_API_BASE_URL}`;
-
-        console.log("url ecrire", url);
-        // const url = process.env.VITE_API_BASE_URL;
-
-      if (!url) {
-        console.error("Erreur : l'URL de l'API n'est pas définie");
-        return;
-      }
       const params = new URLSearchParams({
-        action: 'ecrire',
-        chemin: 'v2',
         nom: article.nom,
         prix: article.prix,
         magasin: article.magasin,
@@ -41,81 +33,112 @@ const Formulaire: React.FC = () => {
         utilisateur: article.utilisateur,
       });
 
-      const response = await fetch(`${url}?${params.toString()}`, {
+      const response = await fetch(`${url}&${params.toString()}`, {
         method: 'POST',
       });
 
       if (response.ok) {
-        const resultat = await response.text();
-        console.log(resultat);
+        const result = await response.text();
+        console.log("Article ajouté :", result);
+        navigate('/resultats'); // Rediriger vers la liste des articles après la création
       } else {
-        console.error('Erreur lors de la requête API:', response.statusText);
+        console.error("Erreur lors de la création de l'article :", response.statusText);
       }
     } catch (error) {
-      console.error("Erreur lors de l'ajout de l'article :", error);
+      console.error("Erreur lors de la requête :", error);
     }
-
-    // Réinitialiser les champs
-    setNom('');
-    setPrix('');
-    setMagasin('');
-    setQuantite('');
-    setPrixAuKgLitre('');
-    setEnPromo('');
-    setUtilisateur('');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Ajouter un Article</h2>
-      <input
-        type="text"
-        placeholder="Nom de l'article"
-        value={nom}
-        onChange={(e) => setNom(e.target.value)}
-        required
-      />
-      <input
-        type="number"
-        placeholder="Prix"
-        value={prix}
-        onChange={(e) => setPrix(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Magasin"
-        value={magasin}
-        onChange={(e) => setMagasin(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Quantité"
-        value={quantite}
-        onChange={(e) => setQuantite(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Prix au kg/Litre"
-        value={prixAuKgLitre}
-        onChange={(e) => setPrixAuKgLitre(e.target.value)}
-        required
-      />
-      <select value={enPromo} onChange={(e) => setEnPromo(e.target.value)} required>
-        <option value="">Article en promo ?</option>
-        <option value="oui">Oui</option>
-        <option value="non">Non</option>
-      </select>
-      <input
-        type="text"
-        placeholder="Utilisateur"
-        value={utilisateur}
-        onChange={(e) => setUtilisateur(e.target.value)}
-        required
-      />
-      <button type="submit">Ajouter l'article</button>
+    <form onSubmit={handleSubmit} className="container my-4 p-4 border rounded">
+      <h2 className="text-center mb-4">Ajouter un Article</h2>
+      <div className="form-group mb-3">
+        <label htmlFor="nom">Nom de l'article</label>
+        <input
+          type="text"
+          className="form-control"
+          id="nom"
+          name="nom"
+          value={article.nom}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="prix">Prix (€)</label>
+        <input
+          type="number"
+          className="form-control"
+          id="prix"
+          name="prix"
+          value={article.prix}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="magasin">Magasin</label>
+        <input
+          type="text"
+          className="form-control"
+          id="magasin"
+          name="magasin"
+          value={article.magasin}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="quantite">Quantité</label>
+        <input
+          type="text"
+          className="form-control"
+          id="quantite"
+          name="quantite"
+          value={article.quantite}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="prixAuKgLitre">Prix au kg/Litre (€)</label>
+        <input
+          type="text"
+          className="form-control"
+          id="prixAuKgLitre"
+          name="prixAuKgLitre"
+          value={article.prixAuKgLitre}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="enPromo">Article en promo</label>
+        <select
+          className="form-control"
+          id="enPromo"
+          name="enPromo"
+          value={article.enPromo}
+          onChange={handleChange}
+          required
+        >
+          <option value="non">Non</option>
+          <option value="oui">Oui</option>
+        </select>
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="utilisateur">Utilisateur</label>
+        <input
+          type="text"
+          className="form-control"
+          id="utilisateur"
+          name="utilisateur"
+          value={article.utilisateur}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <button type="submit" className="btn btn-primary">Ajouter l'article</button>
     </form>
   );
 };

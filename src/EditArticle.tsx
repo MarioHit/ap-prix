@@ -1,6 +1,7 @@
 // src/EditArticle.tsx
 import React, { useState, useEffect } from 'react';
 import { Article } from './types';
+import { useNavigate } from 'react-router-dom'; // Importer useNavigate pour la navigation
 
 interface EditArticleProps {
   articleToEdit: Article;
@@ -9,6 +10,7 @@ interface EditArticleProps {
 
 const EditArticle: React.FC<EditArticleProps> = ({ articleToEdit, onSave }) => {
   const [article, setArticle] = useState<Article>(articleToEdit);
+  const navigate = useNavigate(); // Initialiser useNavigate
 
   useEffect(() => {
     setArticle(articleToEdit);
@@ -42,6 +44,7 @@ const EditArticle: React.FC<EditArticleProps> = ({ articleToEdit, onSave }) => {
         const result = await response.text();
         console.log("Article mis à jour :", result);
         onSave(article);
+        navigate('/resultats'); // Rediriger vers la liste des articles après la modification
       } else {
         console.error("Erreur lors de la mise à jour de l'article :", response.statusText);
       }
@@ -123,9 +126,8 @@ const EditArticle: React.FC<EditArticleProps> = ({ articleToEdit, onSave }) => {
           onChange={handleChange}
           required
         >
-          <option value="">Sélectionner</option>
-          <option value="oui">Oui</option>
           <option value="non">Non</option>
+          <option value="oui">Oui</option>
         </select>
       </div>
       <div className="form-group mb-3">
