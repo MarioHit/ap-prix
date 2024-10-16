@@ -4,6 +4,7 @@ import './Formulaire.css'; // Importer le CSS
 import { Article } from './types'; // Importer l'interface
 
 const Formulaire: React.FC = () => {
+  const [id, setId] = useState('');
   const [nom, setNom] = useState('');
   const [prix, setPrix] = useState('');
   const [magasin, setMagasin] = useState('');
@@ -14,7 +15,8 @@ const Formulaire: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const article: Article = { nom, prix, magasin, quantite, prixAuKgLitre, enPromo, utilisateur };
+    const article: Article = { id, nom, prix, magasin, quantite, prixAuKgLitre, enPromo, utilisateur
+    };
 
     // Appel à l'API pour ajouter un article
     try {

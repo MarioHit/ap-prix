@@ -2,7 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { Article } from './types';
 
-const Resultats: React.FC = () => {
+interface ResultatsProps {
+  onEdit: (article: Article) => void; // Fonction appelée lors de la modification
+}
+
+const Resultats: React.FC<ResultatsProps> = ({ onEdit }) => {
   const [fetchedArticles, setFetchedArticles] = useState<Article[]>([]);
 
   const fetchArticles = async () => {
@@ -43,6 +47,7 @@ const Resultats: React.FC = () => {
                 <th scope="col">Prix au kg/Litre (€)</th>
                 <th scope="col">Article en promo</th>
                 <th scope="col">Utilisateur</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -55,6 +60,14 @@ const Resultats: React.FC = () => {
                   <td>{article.prixAuKgLitre}</td>
                   <td>{article.enPromo}</td>
                   <td>{article.utilisateur}</td>
+                  <td>
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => onEdit(article)}
+                    >
+                      Modifier
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
