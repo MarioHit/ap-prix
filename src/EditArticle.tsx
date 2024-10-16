@@ -51,9 +51,95 @@ const EditArticle: React.FC<EditArticleProps> = ({ articleToEdit, onSave }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Modifier l'Article</h2>
-      {/* Formulaire similaire à celui pour l'ajout, pré-rempli avec les valeurs de 'article' */}
+    <form onSubmit={handleSubmit} className="container my-4 p-4 border rounded">
+      <h2 className="text-center mb-4">Modifier l'Article</h2>
+      <div className="form-group mb-3">
+        <label htmlFor="nom">Nom de l'article</label>
+        <input
+          type="text"
+          className="form-control"
+          id="nom"
+          name="nom"
+          value={article.nom}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="prix">Prix (€)</label>
+        <input
+          type="number"
+          className="form-control"
+          id="prix"
+          name="prix"
+          value={article.prix}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="magasin">Magasin</label>
+        <input
+          type="text"
+          className="form-control"
+          id="magasin"
+          name="magasin"
+          value={article.magasin}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="quantite">Quantité</label>
+        <input
+          type="text"
+          className="form-control"
+          id="quantite"
+          name="quantite"
+          value={article.quantite}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="prixAuKgLitre">Prix au kg/Litre (€)</label>
+        <input
+          type="text"
+          className="form-control"
+          id="prixAuKgLitre"
+          name="prixAuKgLitre"
+          value={article.prixAuKgLitre}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="enPromo">Article en promo</label>
+        <select
+          className="form-control"
+          id="enPromo"
+          name="enPromo"
+          value={article.enPromo}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Sélectionner</option>
+          <option value="oui">Oui</option>
+          <option value="non">Non</option>
+        </select>
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="utilisateur">Utilisateur</label>
+        <input
+          type="text"
+          className="form-control"
+          id="utilisateur"
+          name="utilisateur"
+          value={article.utilisateur}
+          onChange={handleChange}
+          required
+        />
+      </div>
       <button type="submit" className="btn btn-success">Sauvegarder</button>
     </form>
   );

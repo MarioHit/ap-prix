@@ -1,5 +1,6 @@
 // src/Resultats.tsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importer useNavigate pour la navigation
 import { Article } from './types';
 
 interface ResultatsProps {
@@ -8,11 +9,11 @@ interface ResultatsProps {
 
 const Resultats: React.FC<ResultatsProps> = ({ onEdit }) => {
   const [fetchedArticles, setFetchedArticles] = useState<Article[]>([]);
+  const navigate = useNavigate(); // Hook pour la navigation
 
   const fetchArticles = async () => {
     try {
       const url = `${import.meta.env.VITE_API_BASE_URL}?action=lire&chemin=v2`;
-      console.log("url lire", url);
       if (!url) {
         console.error("Erreur : l'URL de l'API n'est pas définie");
         return;
@@ -29,6 +30,11 @@ const Resultats: React.FC<ResultatsProps> = ({ onEdit }) => {
   useEffect(() => {
     fetchArticles();
   }, []);
+
+  const handleEditClick = (article: Article) => {
+    onEdit(article); // Appeler la fonction de modification pour définir l'article à modifier
+    navigate('/modifier'); // Naviguer vers la page de modification
+  };
 
   return (
     <div className="container my-5">
@@ -63,7 +69,7 @@ const Resultats: React.FC<ResultatsProps> = ({ onEdit }) => {
                   <td>
                     <button
                       className="btn btn-primary btn-sm"
-                      onClick={() => onEdit(article)}
+                      onClick={() => handleEditClick(article)} // Utiliser handleEditClick
                     >
                       Modifier
                     </button>

@@ -11,12 +11,12 @@ function App() {
   const [articleToEdit, setArticleToEdit] = useState<Article | null>(null);
 
   const handleEditArticle = (article: Article) => {
-    setArticleToEdit(article);
+    setArticleToEdit(article); // Définit l'article à modifier
   };
 
   const handleSaveArticle = (updatedArticle: Article) => {
-    // Logique à ajouter pour mettre à jour l'article en local si nécessaire
-    setArticleToEdit(null);
+    // Logique pour mettre à jour l'article en local (si nécessaire)
+    setArticleToEdit(null); // Réinitialise l'état de l'article en cours d'édition après la sauvegarde
   };
 
   return (
@@ -34,17 +34,19 @@ function App() {
           path="/resultats"
           element={<Resultats onEdit={handleEditArticle} />}
         />
-        {articleToEdit && (
-          <Route
-            path="/modifier"
-            element={
+        <Route
+          path="/modifier"
+          element={
+            articleToEdit ? (
               <EditArticle
                 articleToEdit={articleToEdit}
                 onSave={handleSaveArticle}
               />
-            }
-          />
-        )}
+            ) : (
+              <p>Aucun article sélectionné pour la modification.</p>
+            )
+          }
+        />
       </Routes>
     </>
   );
